@@ -1,0 +1,160 @@
+
+
+
+
+
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Face Recognition</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
+    <style>
+        body {
+            background-color: #f8f9fa;
+               display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+.container {
+            flex: ;
+        }
+        .navbar {
+            background-color: #207a26;
+        }
+
+        .navbar-brand img {
+            margin-right: 10px;
+        }
+
+        .container {
+            margin-top: 20px;
+        }
+
+        h3 {
+            color: #495057;
+        }
+
+        .upload-form {
+            margin-bottom: 20px;
+        }
+
+        .result-img {
+            margin-bottom: 20px;
+        }
+
+        .result-table img {
+            max-width: 100%;
+            height: auto;
+        }
+
+        hr {
+            border-top: 2px solid #007bff;
+            margin-top: 40px;
+            margin-bottom: 40px;
+        }
+         footer {
+            text-align: center;
+            padding: 10px;
+            background-color: #f8f9fa;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation bar -->
+    <nav class="navbar navbar-dark">
+        <div class="container">
+            <a href="/" class="navbar-brand">
+                <img src="{% static 'logo.png' %}" alt="" width="60" height="40">
+                Face Recognition ML Django App
+            </a>
+        </div>
+    </nav>
+
+    <!-- Body -->
+    <div class="container">
+        <h3 class="display-5 text-center">Facial Analysis of Celebrities</h3>
+
+        <form action="#" method="POST" enctype="multipart/form-data" class="upload-form">
+            {% csrf_token %}
+            <div class="input-group">
+                <label for="{{ form.image.id_for_label }}" class="visually-hidden">Choose an image</label>
+                {{ form.image }}
+                <button type="submit" class="btn btn-outline-secondary">Display Image</button>
+            </div>
+        </form>
+
+        {% if upload %}
+        <div class="row result-img">
+            <div class="col">
+                <img class="img-fluid" src="/media/ml_output/process.jpg" alt="Processed Image">
+            </div>
+        </div>
+
+        <div class="row result-table">
+            <div class="col">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>Face Image</th>
+                            {% for c in results.count %}
+                                <th><img class="img-fluid" src="/media/ml_output/roi_{{ c }}.jpg" alt="Face {{ c }}"></th>
+                            {% endfor %}
+                        </tr>
+                    </thead>
+
+                   <tr>
+                        <td>Face Detection Score</td>
+                        {% for detect_score in results.face_detect_score  %}
+                            <td>{{ detect_score }}</td>
+                        {% endfor %}
+                    </tr>
+                    <tr>
+                        <td>Name</td>
+                        {% for name in results.face_name  %}
+                            <td>{{ name }}</td>
+                        {% endfor %}
+                    </tr>
+                    <tr>
+                        <td>Face Score</td>
+                        {% for name_score in results.face_name_score  %}
+                            <td>{{ name_score }}</td>
+                        {% endfor %}
+                    </tr>
+                    <tr>
+                        <td>Emotion</td>
+                        {% for emotion in results.emotion_name  %}
+                            <td>{{ emotion }}</td>
+                        {% endfor %}
+                    </tr>
+                    <tr>
+                        <td>Emotion Score</td>
+                        {% for emotion_score in results.emotion_name_score  %}
+                            <td>{{ emotion_score }}</td>
+                        {% endfor %}
+                    </tr>
+                </table>
+            </div>
+        </div>
+        {% endif %}
+
+       </div>
+        </div>
+       
+        <hr>
+        <div class="container">
+             <footer>
+        <div class="container text-center">
+            <a> Aruzhan Nurmanova 2024</a>
+        </div>
+    </footer>
+
+        </div>
+    
+    
+</body>
+</html>
